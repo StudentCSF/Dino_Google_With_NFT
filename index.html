@@ -1,0 +1,87 @@
+<html>
+
+<head>
+    <title>
+        My first NFT game
+    </title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.51.0/dist/phaser.js"></script>
+</head>
+
+<body>
+    <h1>Testing...</h1>
+    <button id="btn-login">Moralis login</button>
+    <button id="btn-logout">Logout</button>
+    <button id="btn-get-stats">Refresh Stats</button>
+
+    <ul id="stats"></ul>
+
+    <script>
+        const serverUrl = "https://hhf94m4l0ue4.usemoralis.com:2053/server";
+        const appId = "TElNqqhKFrv95nPwXyUNldKipwaOJFK0R5GZXmlg";
+        Moralis.start({ serverUrl, appId });
+
+        async function login() {
+            let user = Moralis.User.current();
+            if (!user) {
+                user = await Moralis.authenticate();
+            }
+            console.log("logged in user: ", user);
+            getStats();
+        }
+
+        async function logout() {
+            await Moralis.User.logOut();
+            console.log("logged out");
+        }
+
+        function getStats() {
+            const user = Moralis.User.current();
+            if (user) {
+                getUserTransactions(user);
+            }
+            getAveragePrices();
+        }
+
+        async function getUserTransactions(user) {
+            const query = new Moralis.Query("EthTransactions");
+            query.equalTo("from_address", user.get("ethAddress"));
+
+            const subscription = await query.subscribe();
+            handleNewTransaction(subscription);
+
+            const results = await query.find();
+            console.log("user transactions: ", results);
+        }
+
+        async function handleNewTransaction(subscription) {
+            subscription.on("create", function (data) {
+                console.log("new transaction: ", data);
+            });
+        }
+
+        async function getAveragePrices() {
+            const results = await Moralis.Cloud.run("getAvg");
+            console.log("average user prices: ", results);
+            renderStats(results);
+        }
+
+        function renderStats(data) {
+            const container = document.getElementById("stats");
+            container.innerHTML = data
+                .map(function (row, rank) {
+                    return `<li>#${rank + 1}: ${Math.round(row.avg)} gwei</li>`;
+                })
+                .join("");
+        }
+
+        getStats();
+
+        document.getElementById("btn-login").onclick = login;
+        document.getElementById("btn-logout").onclick = logout;
+        document.getElementById("btn-get-stats").onclick = getStats;
+    </script>
+</body>
+
+</html>
