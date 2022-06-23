@@ -123,6 +123,8 @@
             var scorePeriod = 30;
             var time = scorePeriod;
             var scoreText;
+
+            var highScore;
             var highScoreText;
 
 
@@ -164,8 +166,9 @@
 
                 scoreText = this.add.text(16, 10, 'Score: 0', { fontSize: '32px', fill: '#FFF' });
 
-                let oldHighScore = document.cookie.split('=')[1];
-                highScoreText = this.add.text(516, 10, 'High Score: ' + oldHighScore, { fontSize: '32px', fill: '#FFF' });
+                highScore = localStorage.getItem('high-score') == null ? 0 : localStorage.getItem('high-score');
+
+                highScoreText = this.add.text(516, 10, 'High Score: ' + highScore, { fontSize: '32px', fill: '#FFF' });
             }
 
             function update() {
@@ -175,10 +178,11 @@
                 for (let i in cactuses.getChildren()) {
                     gameOver = player.body.touching.right || player.body.touching.down && cactuses.getChildren()[i].body.touching.up;
                     if (gameOver) {
-                        document.cookie = 'high-score' + "=" + score;
-                        let oldHighScore = document.cookie.split('=')[1];
-                        if (score > oldHighScore) {
-                            document.cookie.replace(oldHighScore, score);
+                        highScore = localStorage.getItem('high-score');
+                        if (highScore == null || score > highScore) {
+                            highScore = score;
+                            localStorage.setItem('high-score', highScore);
+                            highScoreText.setText('High Score: ' + highScore);
                         }
                         alert('GameOver');
                         return;
@@ -188,6 +192,7 @@
                 if (time == 0) {
                     score++;
                     time = scorePeriod;
+
                     scoreText.setText('Score: ' + score);
                 }
                 if (currentSpeed < maxSpeed) {
