@@ -123,6 +123,7 @@
             var scorePeriod = 30;
             var time = scorePeriod;
             var scoreText;
+            var highScoreText;
 
 
             function preload() {
@@ -161,7 +162,10 @@
                 cursors = this.input.keyboard.createCursorKeys();
                 currentSpeed = baseSpeed;
 
-                scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#FFF' });
+                scoreText = this.add.text(16, 10, 'Score: 0', { fontSize: '32px', fill: '#FFF' });
+
+                let oldHighScore = document.cookie.split('=')[1];
+                highScoreText = this.add.text(516, 10, 'High Score: ' + oldHighScore, { fontSize: '32px', fill: '#FFF' });
             }
 
             function update() {
@@ -171,6 +175,11 @@
                 for (let i in cactuses.getChildren()) {
                     gameOver = player.body.touching.right || player.body.touching.down && cactuses.getChildren()[i].body.touching.up;
                     if (gameOver) {
+                        document.cookie = 'high-score' + "=" + score;
+                        let oldHighScore = document.cookie.split('=')[1];
+                        if (score > oldHighScore) {
+                            document.cookie.replace(oldHighScore, score);
+                        }
                         alert('GameOver');
                         return;
                     }
