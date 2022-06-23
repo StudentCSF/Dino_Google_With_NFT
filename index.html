@@ -119,6 +119,11 @@
             var currentSpeed;
             var gameOver = false;
 
+            var score = 0;
+            var scorePeriod = 30;
+            var time = scorePeriod;
+            var scoreText;
+
 
             function preload() {
                 this.load.image('background', 'assets/bg_desert.png');
@@ -132,21 +137,13 @@
 
                 let init, dinit;
                 cactuses = this.physics.add.staticGroup();
-                // var q = this.physics.add.group();
-                // cactuses.create(
-                // cactuses = this.physics.add.sprite(Math.random() * 100 + config.width - 200, 532, 'cactus').setScale(0.7).refreshBody();
-                // cactuses = this.physics.add.sprite(Math.random() * 100 + config.width - 400, 532, 'cactus').setScale(0.7).refreshBody();
-                // cactuses.push(cac);
-                // currentSpeed = baseSpeed;
-                // for (let c in cactuses){
-                // cactuses[c].setVelocityX(currentSpeed)
-                // // console.log('c: ', cactuses);
-                // }
                 cactuses.create(Math.random() * 100 + config.width, 532, 'cactus').setScale(0.7).refreshBody();
-                cactuses.getChildren()[0].body.x += 10;
-                cactuses.getChildren()[0].body.y += 10;
-                cactuses.getChildren()[0].body.width -= 20;
-                cactuses.getChildren()[0].body.height -= 10;
+                for (let c in cactuses.getChildren()) {
+                    cactuses.getChildren()[c].body.x += 10;
+                    cactuses.getChildren()[c].body.y += 10;
+                    cactuses.getChildren()[c].body.width -= 20;
+                    cactuses.getChildren()[c].body.height -= 10;
+                }
 
 
                 platforms = this.physics.add.staticGroup();
@@ -157,14 +154,14 @@
                 }
 
                 player = this.physics.add.sprite(30, 400, 'player').setScale(0.7).refreshBody();
-                // player.setVelocityX(1);
 
                 this.physics.add.collider(player, platforms);
                 this.physics.add.collider(player, cactuses);
-                // this.physics.add.collider(cactuses, platforms);
 
                 cursors = this.input.keyboard.createCursorKeys();
                 currentSpeed = baseSpeed;
+
+                scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#FFF' });
             }
 
             function update() {
@@ -173,12 +170,16 @@
                 }
                 for (let i in cactuses.getChildren()) {
                     gameOver = player.body.touching.right || player.body.touching.down && cactuses.getChildren()[i].body.touching.up;
-                    // console.log("pl: ", player.body.touching.right);
-                    // console.log("cc: ", cactuses.getChildren()[i].body.touching);
                     if (gameOver) {
                         alert('GameOver');
                         return;
                     }
+                }
+                time--;
+                if (time == 0) {
+                    score++;
+                    time = scorePeriod;
+                    scoreText.setText('Score: ' + score);
                 }
                 if (currentSpeed < maxSpeed) {
                     currentSpeed = maxSpeed;
@@ -186,10 +187,10 @@
                 else if (currentSpeed > maxSpeed) {
                     currentSpeed += acceleration / 60;
                 }
-                
+
                 for (let i in cactuses.getChildren()) {
-                    cactuses.getChildren()[i].body.x += currentSpeed;
                     cactuses.getChildren()[i].x += currentSpeed;
+                    cactuses.getChildren()[i].body.x += currentSpeed;
                 }
 
                 if (cursors.up.isDown && player.body.touching.down) {
