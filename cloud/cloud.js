@@ -35,8 +35,15 @@ Moralis.Cloud.define("ipfsJson", async (request) => {
   return result;
 });
 
-Moralis.Cloud.define("getUrl", async function (request) {
-  // logger.log(request);
-  // return request;
-  return request.params.tad;
+Moralis.Cloud.define("getDataFromUrl", async (request) => {
+  return Moralis.Cloud.httpRequest({
+    method: "GET",
+    url: request.params.url
+  })
 });
+
+Moralis.Cloud.define("createFile", async (request) => {
+  const base64 = "V29ya2luZyBhdCBQYXJzZSBpcyBncmVhdCE=";
+  const file = new Moralis.File(request.params.file, { base64: base64 });
+  return file;
+})

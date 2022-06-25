@@ -12,6 +12,12 @@ var score_rarity = {
     10: "test2",
     15: "test3",
     16: "test4",
+    17: "test5",
+    18: "test6",
+    19: "test7",
+    20: "test8",
+    21: "test9",
+    22: "test10",
     1000: "unusual",
     10000: "rare",
     50000: "unique",
@@ -25,6 +31,12 @@ var rarity_score = {
     "test2": 10,
     "test3": 15,
     "test4": 16,
+    "test5": 17,
+    "test6": 18,
+    "test7": 19,
+    "test8": 20,
+    "test9": 21,
+    "test10": 22,
     "unusual": 1000,
     "rare": 10000,
     "unique": 50000,
@@ -41,14 +53,14 @@ async function upload() {
     console.log(nf.ipfs());
 }
 
-// document.getElementById("upload").onclick = upload;
+document.getElementById("upload").onclick = upload;
 document.getElementById("btn-login").onclick = login;
 document.getElementById("btn-logout").onclick = logout;
 
 var config = {
-    type: Phaser.AUTO,
     width: 800,
     height: 600,
+    parent: "game",
     physics: {
         default: 'arcade',
         arcade: {
@@ -90,6 +102,7 @@ var highScoreText;
 
 var gameOver = false;
 var gameOverText;
+var initStart = true;
 
 var localYScore = 10;
 var deployY = localYScore - 200;
@@ -97,29 +110,28 @@ var deployY = localYScore - 200;
 var localYGO = 300;
 var deployYGO = localYGO - 200;
 
+var regameText;
+
+var startText;
+
 var emptyByte = '0x00000000000000000000000000000000000000000000000000000000';
 
 async function launch() {
-    let user = Moralis.User.current();
-    if (!user) {
-        console.log("PLEASE LOG IN WITH METAMASK!!")
-    }
-    else {
+    user = Moralis.User.current();
+    if (user) {
         await initPlayerUrl();
-
-        game = new Phaser.Game(config);
     }
+    game = new Phaser.Game(config);
 }
 
 launch();
 
 async function login() {
-    let user = Moralis.User.current();
-    if (!user) {
-        user = await Moralis.Web3.authenticate();
-        launch()
+    if (!Moralis.User.current()) {
+        await Moralis.Web3.authenticate();
     }
-    console.log("logged in user:", user);
+    await initPlayerUrl();
+    console.log("logged in user:", Moralis.User.current());
 }
 
 async function logout() {
@@ -128,6 +140,7 @@ async function logout() {
 }
 
 async function initPlayerUrl() {
+    if (!Moralis.User.current()) return;
     const userAdd = Moralis.User.current().get('ethAddress');
     const opts = {
         chain: contractChain,
@@ -145,10 +158,27 @@ async function initPlayerUrl() {
     } else {
         var maxk = 0;
         imU = defaultPlayerUrl;
+        console.log(nfts.result);
         for (let i in nfts.result) {
             tad = nfts.result[i].metadata;
-            tad = tad.replaceAll("\\", "");
-            tad = JSON.parse(tad);
+            if (tad == null) {
+                uri = nfts.result[i].token_uri;
+                // tad = 
+                o = {
+                    url: uri
+                }
+                // console.log(1);
+                tad = (await Moralis.Cloud.run("getDataFromUrl", o)).data;
+                console.log(tad);
+                // return xmlHttp.responseText;
+                // console.log(tad);
+                // continue;
+                // continue;
+            } else {
+                tad = tad.replaceAll("\\", "");
+                tad = JSON.parse(tad);
+            }
+            // console.log(tad);
             p = {
                 tad: tad["image"]
             }
@@ -167,18 +197,25 @@ async function preload() {
     this.load.image('background', 'assets/bg_desert.png');
     this.load.image('ground', 'assets/sandCenter_rounded.png');
     this.load.image('cactus', 'assets/cactus.png');
-    this.load.image('player', playerUrl);
+    if (Moralis.User.current()) {
+        this.load.image('player', playerUrl);
+    }
+    this.load.image('default_player', defaultPlayerUrl);
 }
 
-var regameText;
-
 async function create() {
-    
-    this.scale.pageAlignHorizontally = true;
-    this.scale.pageAlignVertically = true;
-
     this.add.image(400, 300, 'background');
-    console.log(rank);
+    if (initStart) {
+        startText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, 'Start game', { fontSize: '48px', fill: '#FFF' })
+            .setOrigin(0.5)
+            .setPadding(10)
+            .setStyle({ backgroundColor: '#555' })
+            .setInteractive({ useHandCursor: true })
+            .on('pointerdown', function () {
+                initStart = false;
+                startText.setVisible(false);
+            }, this);
+    }
 
     let init, dinit;
 
@@ -198,8 +235,11 @@ async function create() {
         platforms.create(i, 579, 'ground').setScale(0.67).refreshBody();
     }
 
-    player = this.physics.add.sprite(50, 400, 'player').setScale(0.7).refreshBody();
-
+    if (Moralis.User.current()) {
+        player = this.physics.add.sprite(50, 400, 'player').setScale(0.7).refreshBody();
+    } else {
+        player = this.physics.add.sprite(50, 400, 'default_player').setScale(0.7).refreshBody();
+    }
     this.physics.add.collider(player, platforms);
     this.physics.add.collider(player, cactuses);
 
@@ -264,6 +304,7 @@ async function reward() {
                     data: data
                 }
             };
+            console.log(sendOptions);
             await Moralis.enableWeb3();
             try {
                 var contract = await Moralis.executeFunction(sendOptions);
@@ -277,8 +318,7 @@ async function reward() {
 }
 
 async function update() {
-
-    if (gameOver || !player) {
+    if (initStart || gameOver || !player) {
         return;
     }
     for (let i in cactuses.getChildren()) {
@@ -294,7 +334,11 @@ async function update() {
                 .setOrigin(0.5)
                 .setPadding(10);
 
-            await reward();
+            if (Moralis.User.current()) {
+                await reward();
+                await initPlayerUrl();
+                console.log(playerUrl);
+            }
 
             regameText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY + 100, 'Restart game', { fontSize: '48px', fill: '#FFF' })
                 .setOrigin(0.5)
@@ -302,9 +346,11 @@ async function update() {
                 .setStyle({ backgroundColor: '#555' })
                 .setInteractive({ useHandCursor: true })
                 .on('pointerdown', function () {
-                    this.scene.restart();
+                    score = 0;
                     gameOver = false;
+                    this.scene.restart();
                 }, this);
+
             return;
         }
     }
