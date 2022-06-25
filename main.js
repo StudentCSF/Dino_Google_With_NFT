@@ -1,22 +1,17 @@
-// import dotenv from 'dotenv';
-// dotenv.config();
-
-// console.log(process.env);
-
 const serverUrl = "https://hhf94m4l0ue4.usemoralis.com:2053/server";
 const appId = "TElNqqhKFrv95nPwXyUNldKipwaOJFK0R5GZXmlg";
+
 Moralis.start({ serverUrl, appId });
 
-// const contractAddress_ = "0x010F97e727C312E136f5b89485491A3F5F170de1";
 var contractAddress = '0x709F75f44B376f5688Ca6b530F5F2F126E03c423';
-// var contractAddress = process.env.CONTRACT_ADDRESS;
-// console.log(contractAddress);
 var contractAbi = [{ "inputs": [], "stateMutability": "nonpayable", "type": "constructor" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "account", "type": "address" }, { "indexed": true, "internalType": "address", "name": "operator", "type": "address" }, { "indexed": false, "internalType": "bool", "name": "approved", "type": "bool" }], "name": "ApprovalForAll", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "previousOwner", "type": "address" }, { "indexed": true, "internalType": "address", "name": "newOwner", "type": "address" }], "name": "OwnershipTransferred", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "operator", "type": "address" }, { "indexed": true, "internalType": "address", "name": "from", "type": "address" }, { "indexed": true, "internalType": "address", "name": "to", "type": "address" }, { "indexed": false, "internalType": "uint256[]", "name": "ids", "type": "uint256[]" }, { "indexed": false, "internalType": "uint256[]", "name": "values", "type": "uint256[]" }], "name": "TransferBatch", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "operator", "type": "address" }, { "indexed": true, "internalType": "address", "name": "from", "type": "address" }, { "indexed": true, "internalType": "address", "name": "to", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "id", "type": "uint256" }, { "indexed": false, "internalType": "uint256", "name": "value", "type": "uint256" }], "name": "TransferSingle", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": false, "internalType": "string", "name": "value", "type": "string" }, { "indexed": true, "internalType": "uint256", "name": "id", "type": "uint256" }], "name": "URI", "type": "event" }, { "inputs": [{ "internalType": "address", "name": "account", "type": "address" }, { "internalType": "uint256", "name": "id", "type": "uint256" }], "name": "balanceOf", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address[]", "name": "accounts", "type": "address[]" }, { "internalType": "uint256[]", "name": "ids", "type": "uint256[]" }], "name": "balanceOfBatch", "outputs": [{ "internalType": "uint256[]", "name": "", "type": "uint256[]" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "_tokenId", "type": "uint256" }, { "internalType": "string", "name": "_tokenUrl", "type": "string" }, { "internalType": "bytes", "name": "data", "type": "bytes" }], "name": "getItem", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "account", "type": "address" }, { "internalType": "address", "name": "operator", "type": "address" }], "name": "isApprovedForAll", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "name", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "owner", "outputs": [{ "internalType": "address", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "renounceOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "from", "type": "address" }, { "internalType": "address", "name": "to", "type": "address" }, { "internalType": "uint256[]", "name": "ids", "type": "uint256[]" }, { "internalType": "uint256[]", "name": "amounts", "type": "uint256[]" }, { "internalType": "bytes", "name": "data", "type": "bytes" }], "name": "safeBatchTransferFrom", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "from", "type": "address" }, { "internalType": "address", "name": "to", "type": "address" }, { "internalType": "uint256", "name": "id", "type": "uint256" }, { "internalType": "uint256", "name": "amount", "type": "uint256" }, { "internalType": "bytes", "name": "data", "type": "bytes" }], "name": "safeTransferFrom", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "operator", "type": "address" }, { "internalType": "bool", "name": "approved", "type": "bool" }], "name": "setApprovalForAll", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "bytes4", "name": "interfaceId", "type": "bytes4" }], "name": "supportsInterface", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "newOwner", "type": "address" }], "name": "transferOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "id", "type": "uint256" }], "name": "uri", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }];
 var contractChain = 'Mumbai';
 
 var score_rarity = {
     1: "test",
-    50: "test2",
+    10: "test2",
+    15: "test3",
+    16: "test4",
     1000: "unusual",
     10000: "rare",
     50000: "unique",
@@ -27,7 +22,9 @@ var score_rarity = {
 
 var rarity_score = {
     "test": 1,
-    "test2": 50,
+    "test2": 10,
+    "test3": 15,
+    "test4": 16,
     "unusual": 1000,
     "rare": 10000,
     "unique": 50000,
@@ -44,8 +41,7 @@ async function upload() {
     console.log(nf.ipfs());
 }
 
-document.getElementById("upload").onclick = upload;
-
+// document.getElementById("upload").onclick = upload;
 document.getElementById("btn-login").onclick = login;
 document.getElementById("btn-logout").onclick = logout;
 
@@ -79,9 +75,9 @@ var jumpHeight = -400;
 
 var baseSpeed = -5;
 var maxSpeed = -15;
-var acceleration = -0.1;
 var currentSpeed;
-var gameOver = false;
+var acceleration = -0.1;
+
 var rank;
 
 var score = 0;
@@ -92,7 +88,16 @@ var scoreText;
 var highScore;
 var highScoreText;
 
+var gameOver = false;
 var gameOverText;
+
+var localYScore = 10;
+var deployY = localYScore - 200;
+
+var localYGO = 300;
+var deployYGO = localYGO - 200;
+
+var emptyByte = '0x00000000000000000000000000000000000000000000000000000000';
 
 async function launch() {
     let user = Moralis.User.current();
@@ -100,23 +105,15 @@ async function launch() {
         console.log("PLEASE LOG IN WITH METAMASK!!")
     }
     else {
-        console.log(user.get("ethAddress") + " " + "logged in")
         await initPlayerUrl();
+
         game = new Phaser.Game(config);
     }
 }
 
 launch();
-// game = new Phaser.Game(config);
 
 async function login() {
-    // let user = Moralis.User.current();
-    // if (!user) {
-    //     user = await Moralis.authenticate();
-    //     await Moralis.enableWeb3();
-    //     console.log("logged in user: ", user);
-    //     var game = new Phaser.Game(config);
-    // }
     let user = Moralis.User.current();
     if (!user) {
         user = await Moralis.Web3.authenticate();
@@ -136,9 +133,7 @@ async function initPlayerUrl() {
         chain: contractChain,
         address: userAdd,
     };
-    // const playerUrl;
     const nfts = await Moralis.Web3API.account.getNFTs(opts);
-    console.log(nfts);
     if (nfts.total == 0) {
         const query = new Moralis.Query("NFTDino");
         query.equalTo("rarity", "usual");
@@ -157,22 +152,12 @@ async function initPlayerUrl() {
             p = {
                 tad: tad["image"]
             }
-            // var res = Moralis.Cloud.run("getUrl", p);
-            // console.log(res);
-            // var q = new Moralis.Query("NFTDino");
-            // q.equalTo("imageUrl", tad["image"]);
-            // const rest = await q.find();
-            // console.log(rest[0].attributes.imageUrl);
-            // var r = tad["image"];
-            // console.log(defaultPlayerUrl);
-            if (rarity_score[tad["description"]] > maxk) {
+            if (rarity_score[tad["description"]] > maxk && tad['description'] != "test31") {
                 maxk = rarity_score[tad["description"]];
                 rank = tad["description"];
                 imU = tad["image"];
             }
-            playerUrl = imU;//rest[0].attributes.imageUrl;
-            // console.log(playerUrl);
-            // return;
+            playerUrl = imU;
         }
     }
     return playerUrl;
@@ -185,10 +170,18 @@ async function preload() {
     this.load.image('player', playerUrl);
 }
 
+var regameText;
+
 async function create() {
+    
+    this.scale.pageAlignHorizontally = true;
+    this.scale.pageAlignVertically = true;
+
     this.add.image(400, 300, 'background');
+    console.log(rank);
 
     let init, dinit;
+
     cactuses = this.physics.add.staticGroup();
     cactuses.create(Math.random() * 100 + config.width, 532, 'cactus').setScale(0.7).refreshBody();
     for (let c in cactuses.getChildren()) {
@@ -197,7 +190,6 @@ async function create() {
         cactuses.getChildren()[c].body.width -= 20;
         cactuses.getChildren()[c].body.height -= 10;
     }
-
 
     platforms = this.physics.add.staticGroup();
     init = 21;
@@ -212,27 +204,17 @@ async function create() {
     this.physics.add.collider(player, cactuses);
 
     cursors = this.input.keyboard.createCursorKeys();
+
     currentSpeed = baseSpeed;
 
-
-    scoreText = this.add.text(16, -190, 'Score: 0', { fontSize: '32px', fill: '#FFF' });
+    scoreText = this.add.text(16, localYScore, 'Score: 0', { fontSize: '32px', fill: '#FFF' });
 
     highScore = localStorage.getItem('high-score') == null ? 0 : localStorage.getItem('high-score');
 
-    highScoreText = this.add.text(416, -190, 'High Score: ' + highScore, { fontSize: '32px', fill: '#FFF' });
+    highScoreText = this.add.text(416, localYScore, 'High Score: ' + highScore, { fontSize: '32px', fill: '#FFF' });
 }
 
 async function reward() {
-    // var fl = false;
-    // var prev;
-    // for (let k in score_rarity) {
-    //     if (score < k) {
-    //         if (rarity_score[rank] >= prev) {
-    //             return;
-    //         }
-    //     }
-    //     prev = k;
-    // }
     var rew = 0;
     for (let key in score_rarity) {
         if (score >= key && key > rew) {
@@ -240,7 +222,7 @@ async function reward() {
         }
     }
     rew_rar = score_rarity[rew];
-    if(rarity_score[rew_rar] <= rarity_score[rank]) return;
+    if (rarity_score[rew_rar] <= rarity_score[rank]) return;
     if (rew_rar != undefined) {
         const query = new Moralis.Query("NFTDino");
         query.equalTo("rarity", rew_rar);
@@ -260,7 +242,6 @@ async function reward() {
             const metaFile = new Moralis.File(attrs.name + "_metadata.json", vari);
             await metaFile.saveIPFS();
             const metadataUrl = metaFile.ipfs();
-            console.log(metadataUrl);
 
             const _tokenId_ = results[0].id;
 
@@ -269,9 +250,8 @@ async function reward() {
             for (c in _tokenId_) {
                 _tokenId += _tokenId_.charCodeAt(c);
             }
-            console.log(_tokenId);
 
-            var data = '0x00000000000000000000000000000000000000000000000000000000';
+            var data = emptyByte;
             var fname = 'getItem'
 
             var sendOptions = {
@@ -285,7 +265,6 @@ async function reward() {
                 }
             };
             await Moralis.enableWeb3();
-            // console.log(sendOptions);
             try {
                 var contract = await Moralis.executeFunction(sendOptions);
             } catch (e) {
@@ -298,6 +277,7 @@ async function reward() {
 }
 
 async function update() {
+
     if (gameOver || !player) {
         return;
     }
@@ -310,8 +290,21 @@ async function update() {
                 localStorage.setItem('high-score', highScore);
                 highScoreText.setText('High Score: ' + highScore);
             }
-            gameOverText = this.add.text(250, 300, 'Game over.', { fontSize: '48px', fill: '#000' });
+            gameOverText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, 'Game over.', { fontSize: '48px', fill: '#000' })
+                .setOrigin(0.5)
+                .setPadding(10);
+
             await reward();
+
+            regameText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY + 100, 'Restart game', { fontSize: '48px', fill: '#FFF' })
+                .setOrigin(0.5)
+                .setPadding(10)
+                .setStyle({ backgroundColor: '#555' })
+                .setInteractive({ useHandCursor: true })
+                .on('pointerdown', function () {
+                    this.scene.restart();
+                    gameOver = false;
+                }, this);
             return;
         }
     }
