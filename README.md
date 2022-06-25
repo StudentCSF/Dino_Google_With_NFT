@@ -1,4 +1,4 @@
 # Dino_Google_With_NFT
 
-## Requiremnts
+## Requirements
 MetaMask plugin (only for getting and using NFTs in the game)
