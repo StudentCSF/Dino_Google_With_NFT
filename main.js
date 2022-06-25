@@ -18,6 +18,7 @@ var score_rarity = {
     20: "test8",
     21: "test9",
     22: "test10",
+    23: "test11",
     1000: "unusual",
     10000: "rare",
     50000: "unique",
@@ -37,6 +38,7 @@ var rarity_score = {
     "test8": 20,
     "test9": 21,
     "test10": 22,
+    "test11": 23,
     "unusual": 1000,
     "rare": 10000,
     "unique": 50000,
@@ -313,6 +315,7 @@ async function reward() {
                 return;
             }
             contract.wait();
+            alert("Вы выиграли новый NFT!\nОн скоро проинициализируется.\nДля его использования нужно будет просто перезагрузить страницу.\nНе переживайте, если у Вас будет старый NFT в игре.\nЗначит надо просто подольше подождать.\nПожалуйста, проявите терпение :)")
         }
     }
 }
@@ -336,8 +339,9 @@ async function update() {
 
             if (Moralis.User.current()) {
                 await reward();
+                // window.location.reload();
                 await initPlayerUrl();
-                console.log(playerUrl);
+                // console.log(playerUrl);
             }
 
             regameText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY + 100, 'Restart game', { fontSize: '48px', fill: '#FFF' })
