@@ -134,17 +134,17 @@ async function initPlayerUrl() {
             p = {
                 tad: tad["image"]
             }
-            var res = Moralis.Cloud.run("getUrl", p);
-            console.log(res);
-            var q = new Moralis.Query("NFTDino");
-            q.equalTo("imageUrl", tad["image"]);
-            const rest = await q.find();
+            // var res = Moralis.Cloud.run("getUrl", p);
+            // console.log(res);
+            // var q = new Moralis.Query("NFTDino");
+            // q.equalTo("imageUrl", tad["image"]);
+            // const rest = await q.find();
             // console.log(rest[0].attributes.imageUrl);
             // var r = tad["image"];
             // console.log(defaultPlayerUrl);
-            playerUrl =  rest[0].attributes.imageUrl;
-            console.log(playerUrl);
-            return;
+            playerUrl =  tad["image"];//rest[0].attributes.imageUrl;
+            // console.log(playerUrl);
+            // return;
         }
     }
     return playerUrl;
