@@ -9,12 +9,24 @@ var contractChain = 'Mumbai';
 
 var score_rarity = {
     1: "test",
+    50: "test2",
     1000: "unusual",
     10000: "rare",
     50000: "unique",
     100000: "epic",
     500000: "mythical",
     1000000: "legendary"
+}
+
+var rarity_score = {
+    "test": 1,
+    "test2": 50,
+    "unusual": 1000,
+    "rare": 10000,
+    "unique": 50000,
+    "epic": 100000,
+    "mythical": 500000,
+    "legendary": 1000000
 }
 
 async function upload() {
@@ -63,6 +75,7 @@ var maxSpeed = -15;
 var acceleration = -0.1;
 var currentSpeed;
 var gameOver = false;
+var rank;
 
 var score = 0;
 var scorePeriod = 30;
@@ -118,6 +131,7 @@ async function initPlayerUrl() {
     };
     // const playerUrl;
     const nfts = await Moralis.Web3API.account.getNFTs(opts);
+    console.log(nfts);
     if (nfts.total == 0) {
         const query = new Moralis.Query("NFTDino");
         query.equalTo("rarity", "usual");
@@ -127,6 +141,8 @@ async function initPlayerUrl() {
             playerUrl = object.attributes.imageUrl;
         }
     } else {
+        var maxk = 0;
+        imU = defaultPlayerUrl;
         for (let i in nfts.result) {
             tad = nfts.result[i].metadata;
             tad = tad.replaceAll("\\", "");
@@ -142,7 +158,12 @@ async function initPlayerUrl() {
             // console.log(rest[0].attributes.imageUrl);
             // var r = tad["image"];
             // console.log(defaultPlayerUrl);
-            playerUrl =  tad["image"];//rest[0].attributes.imageUrl;
+            if (rarity_score[tad["description"]] > maxk) {
+                maxk = rarity_score[tad["description"]];
+                rank = tad["description"];
+                imU = tad["image"];
+            }
+            playerUrl = imU;//rest[0].attributes.imageUrl;
             // console.log(playerUrl);
             // return;
         }
@@ -195,7 +216,16 @@ async function create() {
 }
 
 async function reward() {
-    if (true) return;
+    // var fl = false;
+    // var prev;
+    // for (let k in score_rarity) {
+    //     if (score < k) {
+    //         if (rarity_score[rank] >= prev) {
+    //             return;
+    //         }
+    //     }
+    //     prev = k;
+    // }
     var rew = 0;
     for (let key in score_rarity) {
         if (score >= key && key > rew) {
@@ -203,6 +233,7 @@ async function reward() {
         }
     }
     rew_rar = score_rarity[rew];
+    if(rarity_score[rew_rar] <= rarity_score[rank]) return;
     if (rew_rar != undefined) {
         const query = new Moralis.Query("NFTDino");
         query.equalTo("rarity", rew_rar);
