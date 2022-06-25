@@ -27,10 +27,16 @@ Moralis.Cloud.define("ipfsBinary", async (request) => {
   return result;
 });
 
-Moralis.define("ipfsJson", async (request) => {
+Moralis.Cloud.define("ipfsJson", async (request) => {
   const result = await Moralis.Cloud.toIpfs({
     sourceType: "object",
     source: request.params.metadata,
   });
   return result;
+});
+
+Moralis.Cloud.define("getUrl", async function (request) {
+  // logger.log(request);
+  // return request;
+  return request.params.tad;
 });

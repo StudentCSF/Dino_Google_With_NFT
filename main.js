@@ -5,9 +5,7 @@ Moralis.start({ serverUrl, appId });
 // const contractAddress_ = "0x010F97e727C312E136f5b89485491A3F5F170de1";
 var contractAddress = '0x709F75f44B376f5688Ca6b530F5F2F126E03c423';
 var contractAbi = [{ "inputs": [], "stateMutability": "nonpayable", "type": "constructor" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "account", "type": "address" }, { "indexed": true, "internalType": "address", "name": "operator", "type": "address" }, { "indexed": false, "internalType": "bool", "name": "approved", "type": "bool" }], "name": "ApprovalForAll", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "previousOwner", "type": "address" }, { "indexed": true, "internalType": "address", "name": "newOwner", "type": "address" }], "name": "OwnershipTransferred", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "operator", "type": "address" }, { "indexed": true, "internalType": "address", "name": "from", "type": "address" }, { "indexed": true, "internalType": "address", "name": "to", "type": "address" }, { "indexed": false, "internalType": "uint256[]", "name": "ids", "type": "uint256[]" }, { "indexed": false, "internalType": "uint256[]", "name": "values", "type": "uint256[]" }], "name": "TransferBatch", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "operator", "type": "address" }, { "indexed": true, "internalType": "address", "name": "from", "type": "address" }, { "indexed": true, "internalType": "address", "name": "to", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "id", "type": "uint256" }, { "indexed": false, "internalType": "uint256", "name": "value", "type": "uint256" }], "name": "TransferSingle", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": false, "internalType": "string", "name": "value", "type": "string" }, { "indexed": true, "internalType": "uint256", "name": "id", "type": "uint256" }], "name": "URI", "type": "event" }, { "inputs": [{ "internalType": "address", "name": "account", "type": "address" }, { "internalType": "uint256", "name": "id", "type": "uint256" }], "name": "balanceOf", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address[]", "name": "accounts", "type": "address[]" }, { "internalType": "uint256[]", "name": "ids", "type": "uint256[]" }], "name": "balanceOfBatch", "outputs": [{ "internalType": "uint256[]", "name": "", "type": "uint256[]" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "_tokenId", "type": "uint256" }, { "internalType": "string", "name": "_tokenUrl", "type": "string" }, { "internalType": "bytes", "name": "data", "type": "bytes" }], "name": "getItem", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "account", "type": "address" }, { "internalType": "address", "name": "operator", "type": "address" }], "name": "isApprovedForAll", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "name", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "owner", "outputs": [{ "internalType": "address", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "renounceOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "from", "type": "address" }, { "internalType": "address", "name": "to", "type": "address" }, { "internalType": "uint256[]", "name": "ids", "type": "uint256[]" }, { "internalType": "uint256[]", "name": "amounts", "type": "uint256[]" }, { "internalType": "bytes", "name": "data", "type": "bytes" }], "name": "safeBatchTransferFrom", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "from", "type": "address" }, { "internalType": "address", "name": "to", "type": "address" }, { "internalType": "uint256", "name": "id", "type": "uint256" }, { "internalType": "uint256", "name": "amount", "type": "uint256" }, { "internalType": "bytes", "name": "data", "type": "bytes" }], "name": "safeTransferFrom", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "operator", "type": "address" }, { "internalType": "bool", "name": "approved", "type": "bool" }], "name": "setApprovalForAll", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "bytes4", "name": "interfaceId", "type": "bytes4" }], "name": "supportsInterface", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "address", "name": "newOwner", "type": "address" }], "name": "transferOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "internalType": "uint256", "name": "id", "type": "uint256" }], "name": "uri", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }];
-
-
-var contractChain = 'mumbai';
+var contractChain = 'Mumbai';
 
 var score_rarity = {
     1: "test",
@@ -28,33 +26,6 @@ async function upload() {
 }
 
 document.getElementById("upload").onclick = upload;
-
-function getStats() {
-    if (true) {
-        return;
-    }
-    const user = Moralis.User.current();
-    if (user) {
-        getUserTransactions(user);
-    }
-}
-
-async function getUserTransactions(user) {
-    const query = new Moralis.Query("EthTransactions");
-    query.equalTo("from_address", user.get("ethAddress"));
-
-    const subscription = await query.subscribe();
-    handleNewTransaction(subscription);
-
-    const results = await query.find();
-    console.log("user transactions: ", results);
-}
-
-async function handleNewTransaction(subscription) {
-    subscription.on("create", function (data) {
-        console.log("new transaction: ", data);
-    });
-}
 
 document.getElementById("btn-login").onclick = login;
 document.getElementById("btn-logout").onclick = logout;
@@ -103,13 +74,14 @@ var highScoreText;
 
 var gameOverText;
 
-function launch() {
+async function launch() {
     let user = Moralis.User.current();
     if (!user) {
         console.log("PLEASE LOG IN WITH METAMASK!!")
     }
     else {
         console.log(user.get("ethAddress") + " " + "logged in")
+        await initPlayerUrl();
         game = new Phaser.Game(config);
     }
 }
@@ -139,13 +111,13 @@ async function logout() {
 }
 
 async function initPlayerUrl() {
+    const userAdd = Moralis.User.current().get('ethAddress');
     const opts = {
-        chain: "polygon",
-        address: contractAddress,
+        chain: contractChain,
+        address: userAdd,
     };
-
+    // const playerUrl;
     const nfts = await Moralis.Web3API.account.getNFTs(opts);
-
     if (nfts.total == 0) {
         const query = new Moralis.Query("NFTDino");
         query.equalTo("rarity", "usual");
@@ -153,50 +125,36 @@ async function initPlayerUrl() {
         if (results.length > 0) {
             const object = results[0];
             playerUrl = object.attributes.imageUrl;
-            // console.log(object);
         }
     } else {
-        // get imageUrl from NFT
-        return;
+        for (let i in nfts.result) {
+            tad = nfts.result[i].metadata;
+            tad = tad.replaceAll("\\", "");
+            tad = JSON.parse(tad);
+            p = {
+                tad: tad["image"]
+            }
+            var res = Moralis.Cloud.run("getUrl", p);
+            console.log(res);
+            var q = new Moralis.Query("NFTDino");
+            q.equalTo("imageUrl", tad["image"]);
+            const rest = await q.find();
+            // console.log(rest[0].attributes.imageUrl);
+            // var r = tad["image"];
+            // console.log(defaultPlayerUrl);
+            playerUrl =  rest[0].attributes.imageUrl;
+            console.log(playerUrl);
+            return;
+        }
     }
+    return playerUrl;
 }
-
-
 
 async function preload() {
     this.load.image('background', 'assets/bg_desert.png');
     this.load.image('ground', 'assets/sandCenter_rounded.png');
     this.load.image('cactus', 'assets/cactus.png');
-
-
-    // const opts = {
-    //     chain: "polygon",
-    //     address: contractAddress,
-    // };
-
-    // const nfts = await Moralis.Web3API.account.getNFTs(opts);
-
-    // if (nfts.total == 0) {
-    // const query = new Moralis.Query("NFTDino");
-    // query.equalTo("rarity", "usual");
-    // const results = await query.find();
-    // // if (results.length > 0) {
-    //     const object = results[0];
-    //     const purl = object.attributes.imageUrl;
-    // console.log(object);
-    // }
-    // } else {
-    //     // get imageUrl from NFT
-    //     purl = '';
-    //     console.log('you have nft');
-    // }
-
-    // console.log(playerUrl);
-    this.load.image('player', defaultPlayerUrl);
-}
-
-async function initPlayer() {
-
+    this.load.image('player', playerUrl);
 }
 
 async function create() {
@@ -237,6 +195,7 @@ async function create() {
 }
 
 async function reward() {
+    if (true) return;
     var rew = 0;
     for (let key in score_rarity) {
         if (score >= key && key > rew) {
