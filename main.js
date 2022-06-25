@@ -215,11 +215,11 @@ async function create() {
     currentSpeed = baseSpeed;
 
 
-    scoreText = this.add.text(16, 10, 'Score: 0', { fontSize: '32px', fill: '#FFF' });
+    scoreText = this.add.text(16, -190, 'Score: 0', { fontSize: '32px', fill: '#FFF' });
 
     highScore = localStorage.getItem('high-score') == null ? 0 : localStorage.getItem('high-score');
 
-    highScoreText = this.add.text(416, -210, 'High Score: ' + highScore, { fontSize: '32px', fill: '#FFF' });
+    highScoreText = this.add.text(416, -190, 'High Score: ' + highScore, { fontSize: '32px', fill: '#FFF' });
 }
 
 async function reward() {
