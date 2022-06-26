@@ -8,17 +8,17 @@ var contractAbi = [{ "inputs": [], "stateMutability": "nonpayable", "type": "con
 var contractChain = 'Mumbai';
 
 var score_rarity = {
-    1: "test",
-    10: "test2",
-    15: "test3",
-    16: "test4",
-    17: "test5",
-    18: "test6",
-    19: "test7",
-    20: "test8",
-    21: "test9",
-    22: "test10",
-    23: "test11",
+    // 1: "test",
+    // 10: "test2",
+    // 15: "test3",
+    // 16: "test4",
+    // 17: "test5",
+    // 18: "test6",
+    // 19: "test7",
+    // 20: "test8",
+    // 21: "test9",
+    // 22: "test10",
+    // 23: "test11",
     1000: "unusual",
     10000: "rare",
     50000: "unique",
@@ -28,17 +28,17 @@ var score_rarity = {
 }
 
 var rarity_score = {
-    "test": 1,
-    "test2": 10,
-    "test3": 15,
-    "test4": 16,
-    "test5": 17,
-    "test6": 18,
-    "test7": 19,
-    "test8": 20,
-    "test9": 21,
-    "test10": 22,
-    "test11": 23,
+    // "test": 1,
+    // "test2": 10,
+    // "test3": 15,
+    // "test4": 16,
+    // "test5": 17,
+    // "test6": 18,
+    // "test7": 19,
+    // "test8": 20,
+    // "test9": 21,
+    // "test10": 22,
+    // "test11": 23,
     "unusual": 1000,
     "rare": 10000,
     "unique": 50000,
@@ -47,15 +47,16 @@ var rarity_score = {
     "legendary": 1000000
 }
 
-async function upload() {
-    const f = document.getElementById("file");
-    const data = f.files[0];
-    const nf = new Moralis.File(f.files[0].name, data);
-    await nf.saveIPFS();
-    console.log(nf.ipfs());
-}
 
-document.getElementById("upload").onclick = upload;
+// async function upload() {
+//     const f = document.getElementById("file");
+//     const data = f.files[0];
+//     const nf = new Moralis.File(f.files[0].name, data);
+//     await nf.saveIPFS();
+//     console.log(nf.ipfs());
+// }
+
+// document.getElementById("upload").onclick = upload;
 document.getElementById("btn-login").onclick = login;
 document.getElementById("btn-logout").onclick = logout;
 
@@ -66,7 +67,7 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 1000, x: 1e-9 },
+            gravity: { y: 1000, x: 1e-6 },
             debug: false
         }
     },
@@ -79,7 +80,8 @@ var config = {
 
 var platforms;
 var playerUrl;
-var defaultPlayerUrl = "https://ipfs.moralis.io:2053/ipfs/Qmf9oyDB8pXNARiH1NfBTYT6Fyb6QeXHEEAnCxuukZ1fWH";
+var defaultPlayerUrl = "assets/alienBeige_stand.png";
+var defaultPlayerUrl2 = "https://ipfs.moralis.io:2053/ipfs/Qmf9oyDB8pXNARiH1NfBTYT6Fyb6QeXHEEAnCxuukZ1fWH";
 var player;
 var cursors;
 var cactuses = [];
