@@ -77,7 +77,6 @@ var config = {
     }
 };
 
-
 var platforms;
 var playerUrl;
 var defaultPlayerUrl = "https://ipfs.moralis.io:2053/ipfs/Qmf9oyDB8pXNARiH1NfBTYT6Fyb6QeXHEEAnCxuukZ1fWH";
@@ -107,16 +106,30 @@ var gameOverText;
 var initStart = true;
 
 var localYScore = 10;
-var deployY = localYScore - 200;
+var deployYScore = localYScore - 200;
+var actualYScore;
 
 var localYGO = 300;
 var deployYGO = localYGO - 200;
+var actualYGO;
 
 var regameText;
 
 var startText;
 
 var emptyByte = '0x00000000000000000000000000000000000000000000000000000000';
+
+function initVars() {
+    if (window.location.host == '127.0.0.1:5500') {
+        actualYScore = localYScore;
+        actualYGO = localYGO;
+    } else {
+        actualYScore = deployYScore;
+        actualYGO = deployYGO
+    }
+}
+
+initVars();
 
 async function launch() {
     user = Moralis.User.current();
@@ -249,11 +262,11 @@ async function create() {
 
     currentSpeed = baseSpeed;
 
-    scoreText = this.add.text(16, localYScore, 'Score: 0', { fontSize: '32px', fill: '#FFF' });
+    scoreText = this.add.text(16, actualYScore, 'Score: 0', { fontSize: '32px', fill: '#FFF' });
 
     highScore = localStorage.getItem('high-score') == null ? 0 : localStorage.getItem('high-score');
 
-    highScoreText = this.add.text(416, localYScore, 'High Score: ' + highScore, { fontSize: '32px', fill: '#FFF' });
+    highScoreText = this.add.text(416, actualYScore, 'High Score: ' + highScore, { fontSize: '32px', fill: '#FFF' });
 }
 
 async function reward() {
