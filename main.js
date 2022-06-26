@@ -8,7 +8,7 @@ var contractAbi = [{ "inputs": [], "stateMutability": "nonpayable", "type": "con
 var contractChain = 'Mumbai';
 
 var score_rarity = {
-    10: "demo",
+    1: "demo",
     1000: "unusual",
     10000: "rare",
     50000: "unique",
@@ -18,7 +18,7 @@ var score_rarity = {
 }
 
 var rarity_score = {
-    "demo": 10,
+    "demo": 1,
     "unusual": 1000,
     "rare": 10000,
     "unique": 50000,
@@ -221,56 +221,29 @@ async function reward() {
     rew_rar = score_rarity[rew];
     if (rarity_score[rew_rar] <= rarity_score[rank]) return;
     if (rew_rar != undefined) {
-        const query = new Moralis.Query("NFTDino");
-        query.equalTo("rarity", rew_rar);
-        const results = await query.find();
-        if (results.length > 0) {
-            const object = results[0];
-            attrs = object.attributes;
-            metadata = {
-                name: attrs.name,
-                description: attrs.rarity,
-                image: attrs.imageUrl
-            };
-            vari = {
-                base64: btoa(JSON.stringify(metadata)),
-            };
-
-            const metaFile = new Moralis.File(attrs.name + "_metadata.json", vari);
-            await metaFile.saveIPFS();
-            const metadataUrl = metaFile.ipfs();
-
-            const _tokenId_ = results[0].id;
-
-
-            _tokenId = 0;
-            for (c in _tokenId_) {
-                _tokenId += _tokenId_.charCodeAt(c);
-            }
-
-            var data = emptyByte;
-            var fname = 'getItem'
-
-            var sendOptions = {
-                contractAddress: contractAddress,
-                abi: contractAbi,
-                functionName: fname,
-                params: {
-                    _tokenId: _tokenId,
-                    _tokenUrl: metadataUrl,
-                    data: data
-                }
-            };
-            await Moralis.enableWeb3();
-            try {
-                var contract = await Moralis.executeFunction(sendOptions);
-            } catch (e) {
-                console.log(e);
-                return;
-            }
-            contract.wait();
-            alert("Вы выиграли новый NFT!\nОн скоро проинициализируется.\nДля его использования нужно будет просто перезагрузить страницу.\nНе переживайте, если у Вас будет старый NFT в игре.\nЗначит надо просто подольше подождать.\nПожалуйста, проявите терпение :)")
+        let rew_params = {
+            rew_rar: rew_rar
         }
+
+        let res = await Moralis.Cloud.run('reward', rew_params);
+
+        var sendOptions = {
+            contractAddress: contractAddress,
+            abi: contractAbi,
+            functionName: res.fname,
+            params: res.params
+        };
+
+        await Moralis.enableWeb3();
+
+        try {
+            var contract = await Moralis.executeFunction(sendOptions);
+        } catch (e) {
+            console.log(e);
+            return;
+        }
+        contract.wait();
+        alert("Вы выиграли новый NFT!\nОн скоро проинициализируется.\nДля его использования нужно будет просто перезагрузить страницу.\nНе переживайте, если у Вас будет старый NFT в игре.\nЗначит надо просто подольше подождать.\nПожалуйста, проявите терпение :)");
     }
 }
 

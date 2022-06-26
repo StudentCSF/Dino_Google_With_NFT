@@ -59,3 +59,50 @@ Moralis.Cloud.define("getPlayerUrl", async (request) => {
   };
   return result;
 });
+
+Moralis.Cloud.define('reward', async (request) => {
+  let query = new Moralis.Query("NFTDino");
+  query.equalTo("rarity", request.params.rew_rar);
+  let results = await query.find();
+  if (results.length > 0) {
+    let object = results[0];
+    let attrs = object.attributes;
+
+    let metadata = {
+      name: attrs.name,
+      description: attrs.rarity,
+      image: attrs.imageUrl
+    };
+
+    let base64 = btoa(JSON.stringify(metadata));
+
+    let metaFile = await Moralis.Cloud.toIpfs({
+      sourceType: "base64",
+      source: base64
+    });
+
+    let metadataUrl = metaFile.path;
+    
+    let _tokenId_ = results[0].id;
+
+
+    let _tokenId = 0;
+    for (c in _tokenId_) {
+      _tokenId += _tokenId_.charCodeAt(c);
+    }
+
+    let data = '0x00000000000000000000000000000000000000000000000000000000';
+    let fname = 'getItem';
+
+      let params = {
+        _tokenId: _tokenId,
+        _tokenUrl: metadataUrl,
+        data: data
+    };
+    return {
+      params: params,
+      fname: fname
+    };
+  }
+  return null;
+});
