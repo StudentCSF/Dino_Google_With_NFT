@@ -362,7 +362,6 @@ async function update() {
                 await initPlayerUrl();
                 // console.log(playerUrl);
             }
-            console.log(actualOffset)
             regameText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY + actualOffset + 100, 'Restart game', { fontSize: '48px', fill: '#FFF' })
                 .setOrigin(0.5)
                 .setPadding(10)
