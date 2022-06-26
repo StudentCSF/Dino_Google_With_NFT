@@ -229,7 +229,8 @@ async function create() {
     if (initStart) {
         startText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, 'Start game', { fontSize: '48px', fill: '#FFF' })
             .setOrigin(0.5)
-            .setPadding(-10)
+            .setPadding(10)
+            .setDisplaySize(10, 10)
             .setStyle({ backgroundColor: '#555' })
             .setInteractive({ useHandCursor: true })
             .on('pointerdown', function () {
