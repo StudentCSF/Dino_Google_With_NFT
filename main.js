@@ -229,7 +229,7 @@ async function create() {
     if (initStart) {
         startText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, 'Start game', { fontSize: '48px', fill: '#FFF' })
             .setOrigin(0.5)
-            .setPadding(10)
+            .setPadding(-10)
             .setStyle({ backgroundColor: '#555' })
             .setInteractive({ useHandCursor: true })
             .on('pointerdown', function () {
@@ -272,8 +272,7 @@ async function create() {
 
     highScore = localStorage.getItem('high-score') == null ? 0 : localStorage.getItem('high-score');
 
-    highScoreText = this.add.text(416, actualYScore, 'High Score: ' + highScore, { fontSize: '32px', fill: '#FFF' })
-    .setStyle({ backgroundColor: '#555' });
+    highScoreText = this.add.text(416, actualYScore, 'High Score: ' + highScore, { fontSize: '32px', fill: '#FFF' });
 }
 
 async function reward() {
