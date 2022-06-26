@@ -272,7 +272,8 @@ async function create() {
 
     highScore = localStorage.getItem('high-score') == null ? 0 : localStorage.getItem('high-score');
 
-    highScoreText = this.add.text(416, actualYScore, 'High Score: ' + highScore, { fontSize: '32px', fill: '#FFF' });
+    highScoreText = this.add.text(416, actualYScore, 'High Score: ' + highScore, { fontSize: '32px', fill: '#FFF' })
+    .setStyle({ backgroundColor: '#555' });
 }
 
 async function reward() {
