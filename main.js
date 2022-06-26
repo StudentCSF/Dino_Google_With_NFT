@@ -227,11 +227,12 @@ async function preload() {
 async function create() {
     this.add.image(400, 300, 'background');
     if (initStart) {
-        startText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, 'Start game', { fontSize: '48px', fill: '#FFF' })
+        startText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, 'Start game', { fontSize: '48px', fill: '#F00' })
             .setOrigin(0.5)
             .setPadding(10)
-            .setDisplaySize(300, 180)
-            .setStyle({ backgroundColor: '#555' })
+            .setFontStyle('bold')
+            // .setDisplaySize(300, 180)
+            // .setStyle({ backgroundColor: '#555' })
             .setInteractive({ useHandCursor: true })
             .on('pointerdown', function () {
                 initStart = false;
@@ -363,11 +364,12 @@ async function update() {
                 await initPlayerUrl();
                 // console.log(playerUrl);
             }
-            regameText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY + actualOffset + 100, 'Restart game', { fontSize: '48px', fill: '#FFF' })
+            regameText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY + actualOffset + 100, 'Restart game', { fontSize: '48px', fill: '#F00' })
                 .setOrigin(0.5)
                 .setPadding(10)
-                .setDisplaySize(350, 80)
-                .setStyle({ backgroundColor: '#555' })
+                .setFontStyle('bold')
+                // .setDisplaySize(350, 80)
+                // .setStyle({ backgroundColor: '#555' })
                 .setInteractive({ useHandCursor: true })
                 .on('pointerdown', function () {
                     score = 0;
