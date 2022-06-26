@@ -8,17 +8,7 @@ var contractAbi = [{ "inputs": [], "stateMutability": "nonpayable", "type": "con
 var contractChain = 'Mumbai';
 
 var score_rarity = {
-    // 1: "test",
-    // 10: "test2",
-    // 15: "test3",
-    // 16: "test4",
-    // 17: "test5",
-    // 18: "test6",
-    // 19: "test7",
-    // 20: "test8",
-    // 21: "test9",
-    // 22: "test10",
-    // 23: "test11",
+    10: "demo",
     1000: "unusual",
     10000: "rare",
     50000: "unique",
@@ -28,17 +18,7 @@ var score_rarity = {
 }
 
 var rarity_score = {
-    // "test": 1,
-    // "test2": 10,
-    // "test3": 15,
-    // "test4": 16,
-    // "test5": 17,
-    // "test6": 18,
-    // "test7": 19,
-    // "test8": 20,
-    // "test9": 21,
-    // "test10": 22,
-    // "test11": 23,
+    "demo": 10,
     "unusual": 1000,
     "rare": 10000,
     "unique": 50000,
@@ -47,16 +27,6 @@ var rarity_score = {
     "legendary": 1000000
 }
 
-
-// async function upload() {
-//     const f = document.getElementById("file");
-//     const data = f.files[0];
-//     const nf = new Moralis.File(f.files[0].name, data);
-//     await nf.saveIPFS();
-//     console.log(nf.ipfs());
-// }
-
-// document.getElementById("upload").onclick = upload;
 document.getElementById("btn-login").onclick = login;
 document.getElementById("btn-logout").onclick = logout;
 
@@ -67,7 +37,7 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 1000, x: 1e-6 },
+            gravity: { y: 1000, x: 1e-12 },
             debug: false
         }
     },
@@ -81,10 +51,9 @@ var config = {
 var platforms;
 var playerUrl;
 var defaultPlayerUrl = "assets/alienBeige_stand.png";
-var defaultPlayerUrl2 = "https://ipfs.moralis.io:2053/ipfs/Qmf9oyDB8pXNARiH1NfBTYT6Fyb6QeXHEEAnCxuukZ1fWH";
 var player;
 var cursors;
-var cactuses = [];
+var cactuses;
 
 var jumpHeight = -400;
 
@@ -93,7 +62,7 @@ var maxSpeed = -15;
 var currentSpeed;
 var acceleration = -0.1;
 
-var rank;
+var rank = -1;
 
 var score = 0;
 var scorePeriod = 30;
@@ -154,12 +123,10 @@ async function login() {
         await Moralis.Web3.authenticate();
     }
     await initPlayerUrl();
-    console.log("logged in user:", Moralis.User.current());
 }
 
 async function logout() {
     await Moralis.User.logOut();
-    console.log("logged out");
 }
 
 async function initPlayerUrl() {
@@ -169,51 +136,18 @@ async function initPlayerUrl() {
         chain: contractChain,
         address: userAdd,
     };
-    const nfts = await Moralis.Web3API.account.getNFTs(opts);
-    if (nfts.total == 0) {
-        const query = new Moralis.Query("NFTDino");
-        query.equalTo("rarity", "usual");
-        const results = await query.find();
-        if (results.length > 0) {
-            const object = results[0];
-            playerUrl = object.attributes.imageUrl;
-        }
+    const sendParams = {
+        options: opts,
+        rarity_score: rarity_score
+    };
+    const res = await Moralis.Cloud.run("getPlayerUrl", sendParams);
+    if (res.playerUrl == null) {
+        playerUrl = defaultPlayerUrl;
     } else {
-        var maxk = 0;
-        imU = defaultPlayerUrl;
-        console.log(nfts.result);
-        for (let i in nfts.result) {
-            tad = nfts.result[i].metadata;
-            if (tad == null) {
-                uri = nfts.result[i].token_uri;
-                // tad = 
-                o = {
-                    url: uri
-                }
-                // console.log(1);
-                tad = (await Moralis.Cloud.run("getDataFromUrl", o)).data;
-                console.log(tad);
-                // return xmlHttp.responseText;
-                // console.log(tad);
-                // continue;
-                // continue;
-            } else {
-                tad = tad.replaceAll("\\", "");
-                tad = JSON.parse(tad);
-            }
-            // console.log(tad);
-            p = {
-                tad: tad["image"]
-            }
-            if (rarity_score[tad["description"]] > maxk && tad['description'] != "test31") {
-                maxk = rarity_score[tad["description"]];
-                rank = tad["description"];
-                imU = tad["image"];
-            }
-            playerUrl = imU;
-        }
+        playerUrl = res.playerUrl;
+        rank = res.rank;
     }
-    return playerUrl;
+
 }
 
 async function preload() {
@@ -233,8 +167,6 @@ async function create() {
             .setOrigin(0.5)
             .setPadding(10)
             .setFontStyle('bold')
-            // .setDisplaySize(300, 180)
-            // .setStyle({ backgroundColor: '#555' })
             .setInteractive({ useHandCursor: true })
             .on('pointerdown', function () {
                 initStart = false;
@@ -329,7 +261,6 @@ async function reward() {
                     data: data
                 }
             };
-            console.log(sendOptions);
             await Moralis.enableWeb3();
             try {
                 var contract = await Moralis.executeFunction(sendOptions);
@@ -362,16 +293,12 @@ async function update() {
 
             if (Moralis.User.current()) {
                 await reward();
-                // window.location.reload();
                 await initPlayerUrl();
-                // console.log(playerUrl);
             }
             regameText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY + actualOffset + 100, 'Restart game', { fontSize: '48px', fill: '#F00' })
                 .setOrigin(0.5)
                 .setPadding(10)
                 .setFontStyle('bold')
-                // .setDisplaySize(350, 80)
-                // .setStyle({ backgroundColor: '#555' })
                 .setInteractive({ useHandCursor: true })
                 .on('pointerdown', function () {
                     score = 0;
