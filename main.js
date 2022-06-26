@@ -227,7 +227,7 @@ async function preload() {
 async function create() {
     this.add.image(400, 300, 'background');
     if (initStart) {
-        startText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, 'Start game', { fontSize: '48px', fill: '#F00' })
+        startText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY + actualOffset, 'Start game', { fontSize: '48px', fill: '#F00' })
             .setOrigin(0.5)
             .setPadding(10)
             .setFontStyle('bold')
