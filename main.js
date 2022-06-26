@@ -346,7 +346,7 @@ async function update() {
                 localStorage.setItem('high-score', highScore);
                 highScoreText.setText('High Score: ' + highScore);
             }
-            gameOverText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, 'Game over.', { fontSize: '48px', fill: '#000' })
+            gameOverText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY - 100, 'Game over.', { fontSize: '48px', fill: '#000' })
                 .setOrigin(0.5)
                 .setPadding(10);
 
@@ -357,7 +357,7 @@ async function update() {
                 // console.log(playerUrl);
             }
 
-            regameText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY + 100, 'Restart game', { fontSize: '48px', fill: '#FFF' })
+            regameText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, 'Restart game', { fontSize: '48px', fill: '#FFF' })
                 .setOrigin(0.5)
                 .setPadding(10)
                 // .setStyle({ backgroundColor: '#555' })
