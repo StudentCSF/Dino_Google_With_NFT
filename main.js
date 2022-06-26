@@ -119,13 +119,19 @@ var startText;
 
 var emptyByte = '0x00000000000000000000000000000000000000000000000000000000';
 
+var localOffset = 0;
+var deployOffset = -100;
+var actualOffset;
+
 function initVars() {
     if (window.location.host == '127.0.0.1:5500') {
         actualYScore = localYScore;
         actualYGO = localYGO;
+        actualOffset = localOffset;
     } else {
         actualYScore = deployYScore;
         actualYGO = deployYGO
+        actualOffset - deployOffset;
     }
 }
 
@@ -346,7 +352,7 @@ async function update() {
                 localStorage.setItem('high-score', highScore);
                 highScoreText.setText('High Score: ' + highScore);
             }
-            gameOverText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY - 100, 'Game over.', { fontSize: '48px', fill: '#000' })
+            gameOverText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY + actualOffset, 'Game over.', { fontSize: '48px', fill: '#000' })
                 .setOrigin(0.5)
                 .setPadding(10);
 
@@ -356,8 +362,8 @@ async function update() {
                 await initPlayerUrl();
                 // console.log(playerUrl);
             }
-
-            regameText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, 'Restart game', { fontSize: '48px', fill: '#FFF' })
+            console.log(actualOffset)
+            regameText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY + actualOffset + 100, 'Restart game', { fontSize: '48px', fill: '#FFF' })
                 .setOrigin(0.5)
                 .setPadding(10)
                 // .setStyle({ backgroundColor: '#555' })
