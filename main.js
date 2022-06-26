@@ -225,6 +225,9 @@ async function preload() {
 }
 
 async function create() {
+    console.log(localOffset);
+    console.log(deployOffset);
+    console.log(actualOffset);
     this.add.image(400, 300, 'background');
     if (initStart) {
         startText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, 'Start game', { fontSize: '48px', fill: '#FFF' })
