@@ -124,14 +124,14 @@ var deployOffset = -100;
 var actualOffset;
 
 function initVars() {
-    if (window.location.host == '127.0.0.1:5500') {
+    if (window.location.host == '127.0.01.1:5500') {
         actualYScore = localYScore;
         actualYGO = localYGO;
         actualOffset = localOffset;
     } else {
         actualYScore = deployYScore;
         actualYGO = deployYGO
-        actualOffset - deployOffset;
+        actualOffset = deployOffset;
     }
 }
 
