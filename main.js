@@ -357,10 +357,10 @@ async function update() {
                 // console.log(playerUrl);
             }
 
-            regameText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY + 100, 'Restart game', { fontSize: '16px', fill: '#FFF' })
+            regameText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY + 100, 'Restart game', { fontSize: '48px', fill: '#FFF' })
                 .setOrigin(0.5)
                 .setPadding(10)
-                .setStyle({ backgroundColor: '#555' })
+                // .setStyle({ backgroundColor: '#555' })
                 .setInteractive({ useHandCursor: true })
                 .on('pointerdown', function () {
                     score = 0;
