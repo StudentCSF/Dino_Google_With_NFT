@@ -124,7 +124,7 @@ var deployOffset = -100;
 var actualOffset;
 
 function initVars() {
-    if (window.location.host == '127.0.01.1:5500') {
+    if (window.location.host == '127.0.0.1:5500') {
         actualYScore = localYScore;
         actualYGO = localYGO;
         actualOffset = localOffset;
@@ -225,9 +225,6 @@ async function preload() {
 }
 
 async function create() {
-    console.log(localOffset);
-    console.log(deployOffset);
-    console.log(actualOffset);
     this.add.image(400, 300, 'background');
     if (initStart) {
         startText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, 'Start game', { fontSize: '48px', fill: '#FFF' })
@@ -367,8 +364,8 @@ async function update() {
             }
             regameText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY + actualOffset + 100, 'Restart game', { fontSize: '48px', fill: '#FFF' })
                 .setOrigin(0.5)
-                .setPadding(10)
-                // .setStyle({ backgroundColor: '#555' })
+                // .setPadding(0)
+                .setStyle({ backgroundColor: '#555' })
                 .setInteractive({ useHandCursor: true })
                 .on('pointerdown', function () {
                     score = 0;
